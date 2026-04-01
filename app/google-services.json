@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1031406692903",
+    "project_id": "conecta-voluntariado",
+    "storage_bucket": "conecta-voluntariado.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031406692903:android:9e13c39c9fba125fa63c02",
+        "android_client_info": {
+          "package_name": "com.conecta_voluntariado_tfg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkuqrF2jI6RtK3L4BpjxreAF1ZXzwhA6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

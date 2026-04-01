@@ -1,2 +1,0 @@
-# ConectaVoluntariado
-Proyecto para TFG

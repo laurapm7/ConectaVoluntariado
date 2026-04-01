@@ -1,0 +1,197 @@
+package com.conecta_voluntariado_tfg
+
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.conecta_voluntariado_tfg.databinding.ActivityRegistrationBinding
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+
+class RegistrationActivity : AppCompatActivity() {
+
+        private lateinit var binding: ActivityRegistrationBinding
+        private lateinit var auth: FirebaseAuth
+        private lateinit var db: FirebaseFirestore
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+
+            binding = ActivityRegistrationBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+
+            auth = FirebaseAuth.getInstance()
+            db = FirebaseFirestore.getInstance()
+
+            binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
+                when (checkedId) {
+                    binding.entityRadio.id -> {
+                        binding.entityContainer.visibility = View.VISIBLE
+                        binding.volunteerContainer.visibility = View.GONE
+                    }
+                    binding.volunteerRadio.id -> {
+                        binding.volunteerContainer.visibility = View.VISIBLE
+                        binding.entityContainer.visibility = View.GONE
+                    }
+                }
+            }
+
+            binding.btnSignUp.setOnClickListener {
+                binding.btnSignUp.isEnabled = false
+
+                if (binding.entityRadio.isChecked) {
+                    registerEntity()
+                } else {
+                    registerVolunteer()
+                }
+            }
+        }
+
+        private fun registerEntity() {
+            val entityName = binding.etNameEntity.text.toString().trim()
+            val phone = binding.etPhoneNumber.text.toString().trim()
+            val email = binding.etUserEntity.text.toString().trim()
+            val pass = binding.etPassEntity.text.toString().trim()
+
+            if (entityName.isEmpty() || phone.isEmpty() || email.isEmpty() || pass.isEmpty()) {
+                showSnack("Faltan datos por introducir")
+                binding.btnSignUp.isEnabled = true
+                return
+            }
+
+            if (!email.contains("@")) {
+                showSnack("El email debe contener @")
+                binding.btnSignUp.isEnabled = true
+                return
+            }
+
+            if (pass.length < 6) {
+                showSnack("La contraseña debe tener al menos 6 caracteres")
+                binding.btnSignUp.isEnabled = true
+                return
+            }
+
+            auth.createUserWithEmailAndPassword(email, pass)
+                .addOnSuccessListener {
+                    val uid = auth.currentUser?.uid
+
+                    if (uid == null) {
+                        showSnack("Error al crear el usuario")
+                        binding.btnSignUp.isEnabled = true
+                        return@addOnSuccessListener
+                    }
+
+                    val userDoc = hashMapOf(
+                        "role" to "entity",
+                        "email" to email,
+                        "created_at" to FieldValue.serverTimestamp()
+                    )
+
+                    val entityDoc = hashMapOf(
+                        "entity_name" to entityName,
+                        "entity_phone" to phone,
+                        "entity_email" to email,
+                        "created_at" to FieldValue.serverTimestamp()
+                    )
+
+                    db.collection("users").document(uid).set(userDoc)
+                        .addOnSuccessListener {
+                            db.collection("entities").document(uid).set(entityDoc)
+                                .addOnSuccessListener {
+                                    showSnack("Registro de la entidad completado")
+                                    startActivity(Intent(this, EntityHomeActivity::class.java))
+                                    finish()
+                                }
+                                .addOnFailureListener { e ->
+                                    showSnack("Error al guardar la entidad: ${e.message}")
+                                    binding.btnSignUp.isEnabled = true
+                                }
+                        }
+                        .addOnFailureListener { e ->
+                            showSnack("Error al guardar el usuario: ${e.message}")
+                            binding.btnSignUp.isEnabled = true
+                        }
+                }
+                .addOnFailureListener { e ->
+                    showSnack("Error al registrarse: ${e.message}")
+                    binding.btnSignUp.isEnabled = true
+                }
+        }
+
+        private fun registerVolunteer() {
+            val firstName = binding.etNameVolunteer.text.toString().trim()
+            val lastName = binding.etSurnameVolunteer.text.toString().trim()
+            val email = binding.etUserVolunteer.text.toString().trim()
+            val pass = binding.etPassVolunteer.text.toString().trim()
+
+            if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || pass.isEmpty()) {
+                showSnack("Faltan datos por introducir")
+                binding.btnSignUp.isEnabled = true
+                return
+            }
+
+            if (!email.contains("@")) {
+                showSnack("El email debe contener @")
+                binding.btnSignUp.isEnabled = true
+                return
+            }
+
+            if (pass.length < 6) {
+                showSnack("La contraseña debe tener al menos 6 caracteres")
+                binding.btnSignUp.isEnabled = true
+                return
+            }
+
+            auth.createUserWithEmailAndPassword(email, pass)
+                .addOnSuccessListener {
+                    val uid = auth.currentUser?.uid
+
+                    if (uid == null) {
+                        showSnack("Error al crear el usuario")
+                        binding.btnSignUp.isEnabled = true
+                        return@addOnSuccessListener
+                    }
+
+                    val userDoc = hashMapOf(
+                        "role" to "volunteer",
+                        "email" to email,
+                        "created_at" to FieldValue.serverTimestamp()
+                    )
+
+                    val volunteerDoc = hashMapOf(
+                        "first_name" to firstName,
+                        "last_name" to lastName,
+                        "volunteer_email" to email,
+                        "created_at" to FieldValue.serverTimestamp()
+                    )
+
+                    db.collection("users").document(uid).set(userDoc)
+                        .addOnSuccessListener {
+                            db.collection("volunteers").document(uid).set(volunteerDoc)
+                                .addOnSuccessListener {
+                                    showSnack("Registro del voluntario completado")
+                                    startActivity(Intent(this, VolunteerHomeActivity::class.java))
+                                    finish()
+                                }
+                                .addOnFailureListener { e->
+                                    showSnack("Error al guardar el voluntario: ${e.message}")
+                                    binding.btnSignUp.isEnabled = true
+                                }
+                        }
+                        .addOnFailureListener { e ->
+                            showSnack("Error al guardar el usuario: ${e.message}")
+                            binding.btnSignUp.isEnabled = true
+                        }
+                }
+                .addOnFailureListener { e ->
+                    showSnack("Error al registrarse: ${e.message}")
+                    binding.btnSignUp.isEnabled = true
+                }
+        }
+
+        private fun showSnack(message: String) {
+            Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+        }
+    }
