@@ -91,6 +91,7 @@ class RegistrationActivity : AppCompatActivity() {
 
                     val entityDoc = hashMapOf(
                         "entity_name" to entityName,
+                        "entity_description" to "",
                         "entity_phone" to phone,
                         "entity_email" to email,
                         "created_at" to FieldValue.serverTimestamp()
