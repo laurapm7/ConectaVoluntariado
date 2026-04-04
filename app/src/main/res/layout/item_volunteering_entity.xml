@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:layout_margin="8dp"
-    android:background="#F5F5F5">
+    android:background="@color/light_gray">
 
     <TextView
         android:layout_width="match_parent"
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/tvItemMinors"
         android:paddingTop="6dp"
-        android:textColor="#D32F2F"
+        android:textColor="@color/light_red"
         android:textStyle="bold"
         android:visibility="gone"
         android:text="Implica menores" />
@@ -85,7 +85,7 @@
             android:layout_weight="1"
             android:layout_marginStart="10dp"
             android:text="Borrar"
-            android:backgroundTint="#D32F2F"
+            android:backgroundTint="@color/light_red"
             android:textColor="@color/white" />
     </LinearLayout>
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_margin="8dp"
+    android:background="@color/light_gray">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/ivAchievementIcon"
+        android:src="@drawable/achievement1"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvAchievementTitle"
+        android:text="Primera Huella Solidaria"
+        android:textColor="@color/light_green"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+         android:gravity="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvAchievementDescription"
+        android:layout_marginTop="6dp"
+        android:text="¡Enhorabuena! Tu primera experiencia como voluntari@ queda grabada como el inicio de algo maravilloso. Descubriste que ayudar también transforma a quien ayuda"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+</LinearLayout>
