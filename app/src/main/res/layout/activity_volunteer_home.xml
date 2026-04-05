@@ -63,98 +63,26 @@
         android:id="@+id/linearLayoutBottomContent"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:weightSum="10"
         app:layout_constraintTop_toBottomOf="@id/linearLayoutAchievements"
         app:layout_constraintBottom_toTopOf="@id/bottomBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:id="@+id/linearLayoutFilters"
-            android:layout_weight="3"
-            android:orientation="vertical"
-            android:background="@color/light_gray">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Filtros"
-                android:textColor="@color/brand_blue"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvFilterCity"
-                android:layout_marginTop="10dp"
-                android:text="Ciudad"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spCityFilter" />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/cbAccessible"
-                android:text="Accesible" />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/cbMinors"
-                android:text="Implica menores" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvFilterType"
-                android:layout_marginTop="5dp"
-                android:text="Tipo"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spTypeFilter" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnApplyFilters"
-                android:layout_marginTop="15dp"
-                android:text="Aplicar"
-                android:backgroundTint="@color/brand_blue" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnClearFilters"
-                android:layout_marginTop="8dp"
-                android:text="Limpiar"
-                android:backgroundTint="@color/brand_blue" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/linearLayoutVolunteerings"
-            android:layout_weight="7"
             android:orientation="vertical"
+            android:layout_weight="1"
             android:paddingStart="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Voluntariados disponibles"
+                android:text="Mis Voluntariados"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/light_green"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -167,12 +95,12 @@
                 android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvVolunteerings"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:id="@+id/rvVolunteerings"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
-                tools:listitem="@layout/item_volunteering_volunteer" />
+                tools:listitem="@layout/item_my_volunteering" />
 
         </LinearLayout>
 
@@ -185,7 +113,7 @@
         android:background="@color/light_gray"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:weightSum="2"
+        android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -215,10 +143,26 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/btnSearchVolunteer"
+                android:text="Buscar"
+                android:backgroundTint="@color/brand_blue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/btnProfileVolunteer"
                 android:text="Perfil"
                 android:backgroundTint="@color/brand_blue" />
         </LinearLayout>
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

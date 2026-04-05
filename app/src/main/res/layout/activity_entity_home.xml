@@ -51,7 +51,7 @@
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:id="@+id/bottomBar"
-        android:background="#F5F5F5"
+        android:background="@color/light_gray"
         android:orientation="horizontal"
         android:padding="8dp"
         android:weightSum="3"

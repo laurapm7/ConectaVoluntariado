@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:layout_marginBottom="12dp"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemTitle"
+        android:text="Creando Sonrisas"
+        android:textColor="@color/brand_blue"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemDescription"
+        android:layout_marginTop="6dp"
+        android:text="En este voluntariado realizaremos actividades lúdicas con personas con diversidad funcional" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemCity"
+        android:layout_marginTop="6dp"
+        android:text="Ciudad: Madrid" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemAddress"
+        android:layout_marginTop="6dp"
+        android:text="Dirección: Calle del Pez, 5" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemType"
+        android:layout_marginTop="6dp"
+        android:text="Tipo: Social" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemDate"
+        android:layout_marginTop="6dp"
+        android:text="Fecha y hora: 01/04/2026 15:00" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemAccessibility"
+        android:layout_marginTop="6dp"
+        android:text="Accesible para personas con movilidad reducida"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemMinors"
+        android:layout_marginTop="6dp"
+        android:text="Implica menores (Requiere certificado de delitos sexuales)"
+        android:textStyle="bold"
+        android:textColor="@color/light_red" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemStatus"
+        android:layout_marginTop="6dp"
+        android:text="Estado: Inscrito"
+        android:textStyle="bold" />
+
+</LinearLayout>
