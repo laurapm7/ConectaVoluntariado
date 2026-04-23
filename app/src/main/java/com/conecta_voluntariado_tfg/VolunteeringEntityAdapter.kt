@@ -13,23 +13,23 @@ class VolunteeringEntityAdapter(
     private var volunteeringList: ArrayList<Volunteering>,
     private val typeMap: HashMap<String, String>,
     private val onDelete: (Volunteering) -> Unit
-) : RecyclerView.Adapter<VolunteeringEntityAdapter.MyViewHolder>() {
+) : RecyclerView.Adapter<VolunteeringEntityAdapter.AchievementViewHolder>() {
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
 
-    inner class MyViewHolder(val binding: ItemVolunteeringEntityBinding) :
+    inner class AchievementViewHolder(val binding: ItemVolunteeringEntityBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AchievementViewHolder {
         val binding = ItemVolunteeringEntityBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return MyViewHolder(binding)
+        return AchievementViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AchievementViewHolder, position: Int) {
         val volunteering = volunteeringList[position]
         val typeName = typeMap[volunteering.volunteering_type_id] ?: "Sin tipo"
         holder.binding.tvItemType.text = "Tipo: $typeName"
@@ -40,14 +40,16 @@ class VolunteeringEntityAdapter(
 
         if (volunteering.involves_minors) {
             holder.binding.tvItemMinors.visibility = View.VISIBLE
-            holder.binding.tvItemMinors.text = "Implica menores (Requiere certificado de delitos sexuales)"
+            holder.binding.tvItemMinors.text =
+                "Implica menores (Requiere certificado de delitos sexuales)"
         } else {
             holder.binding.tvItemMinors.visibility = View.GONE
         }
 
         if (volunteering.accessibility) {
             holder.binding.tvItemAccessibility.visibility = View.VISIBLE
-            holder.binding.tvItemAccessibility.text = "Accesible para personas con movilidad reducida"
+            holder.binding.tvItemAccessibility.text =
+                "Accesible para personas con movilidad reducida"
         } else {
             holder.binding.tvItemAccessibility.visibility = View.GONE
         }

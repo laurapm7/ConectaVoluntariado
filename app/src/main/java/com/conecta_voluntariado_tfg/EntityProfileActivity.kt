@@ -1,5 +1,6 @@
 package com.conecta_voluntariado_tfg
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.conecta_voluntariado_tfg.databinding.ActivityEntityProfileBinding
@@ -34,6 +35,10 @@ class EntityProfileActivity : AppCompatActivity() {
             } else {
                 saveEntityProfile()
             }
+        }
+
+        binding.btnSignOut.setOnClickListener {
+            signOut()
         }
     }
 
@@ -111,6 +116,15 @@ class EntityProfileActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 showSnack("Error al guardar los cambios: ${e.message}")
             }
+    }
+
+    private fun signOut() {
+        auth.signOut()
+        showSnack("Has cerrado tu sesión ¡Nos vemos pronto!")
+
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 
     private fun showSnack(message: String) {
