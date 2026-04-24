@@ -16,24 +16,24 @@ class EntityHomeActivity : AppCompatActivity() {
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
     private val volunteeringList = ArrayList<Volunteering>()
-    private lateinit var adapter: VolunteeringEntityAdapter
-    private val typeMap = HashMap<String, String>()
+    private lateinit var entityVolunteeringAdapter: VolunteeringEntityAdapter
+    private val volunteeringTypeMap = HashMap<String, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEntityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = VolunteeringEntityAdapter(
+        entityVolunteeringAdapter = VolunteeringEntityAdapter(
             volunteeringList,
-            typeMap,
-            onDelete = { v ->
-                deleteVolunteering(v.id)
+            volunteeringTypeMap,
+            onDelete = { volunteering ->
+                deleteVolunteering(volunteering.id)
             }
         )
 
         binding.rvVolunteerings.layoutManager = LinearLayoutManager(this)
-        binding.rvVolunteerings.adapter = adapter
+        binding.rvVolunteerings.adapter = entityVolunteeringAdapter
 
         binding.btnAdd.setOnClickListener {
             startActivity(Intent(this, CreateVolunteeringActivity::class.java))
@@ -66,25 +66,25 @@ class EntityHomeActivity : AppCompatActivity() {
         db.collection("volunteerings")
             .whereEqualTo("entity_id", uid)
             .get()
-            .addOnSuccessListener { result ->
+            .addOnSuccessListener { volunteeringsResult ->
                 volunteeringList.clear()
 
-                for (doc in result.documents) {
-                    val v = doc.toObject(Volunteering::class.java)
-                    if (v != null) {
-                        v.id = doc.id
-                        volunteeringList.add(v)
+                for (doc in volunteeringsResult.documents) {
+                    val volunteering = doc.toObject(Volunteering::class.java)
+                    if (volunteering != null) {
+                        volunteering.id = doc.id
+                        volunteeringList.add(volunteering)
                     }
                 }
 
-                adapter.notifyDataSetChanged()
+                entityVolunteeringAdapter.notifyDataSetChanged()
 
                 binding.tvEmpty.visibility =
                     if (volunteeringList.isEmpty()) View.VISIBLE else View.GONE
-                 }
-                    .addOnFailureListener { e->
-                        showSnack("Error al cargar los voluntariados: ${e.message}")
-                    }
+            }
+            .addOnFailureListener { e ->
+                showSnack("Error al cargar los voluntariados: ${e.message}")
+            }
     }
 
     private fun deleteVolunteering(id: String) {
@@ -101,19 +101,19 @@ class EntityHomeActivity : AppCompatActivity() {
     private fun loadTypesAndVolunteerings() {
         db.collection("volunteering_types")
             .get()
-            .addOnSuccessListener { result ->
-                typeMap.clear()
+            .addOnSuccessListener { typesResult ->
+                volunteeringTypeMap.clear()
 
-                for (doc in result.documents) {
+                for (doc in typesResult.documents) {
                     val name = doc.getString("type_name")
                     if (name != null) {
-                        typeMap[doc.id] = name
+                        volunteeringTypeMap[doc.id] = name
                     }
                 }
 
                 loadMyVolunteerings()
             }
-            .addOnFailureListener { e->
+            .addOnFailureListener { e ->
                 showSnack("Error al cargar los tipos de voluntariado: ${e.message}")
             }
     }

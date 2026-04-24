@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Conecta_Voluntariado_TFG"
         tools:targetApi="31">
         <activity
+            android:name=".VolunteerProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".SearchVolunteeringActivity"
             android:exported="false" />
         <activity

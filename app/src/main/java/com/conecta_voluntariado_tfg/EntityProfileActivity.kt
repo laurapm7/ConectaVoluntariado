@@ -52,12 +52,12 @@ class EntityProfileActivity : AppCompatActivity() {
         }
 
         db.collection("entities").document(uid).get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    binding.etNameEntity.setText(document.getString("entity_name") ?: "")
-                    binding.etPhoneNumber.setText(document.getString("entity_phone") ?: "")
-                    binding.etEmailEntity.setText(document.getString("entity_email") ?: "")
-                    binding.etDescEntity.setText(document.getString("entity_description") ?: "")
+            .addOnSuccessListener { entityDocument ->
+                if (entityDocument.exists()) {
+                    binding.etNameEntity.setText(entityDocument.getString("entity_name") ?: "")
+                    binding.etPhoneNumber.setText(entityDocument.getString("entity_phone") ?: "")
+                    binding.etEmailEntity.setText(entityDocument.getString("entity_email") ?: "")
+                    binding.etDescEntity.setText(entityDocument.getString("entity_description") ?: "")
                 } else {
                     showSnack("No se encontraron los datos de la entidad")
                 }
@@ -89,21 +89,21 @@ class EntityProfileActivity : AppCompatActivity() {
             return
         }
 
-        val name = binding.etNameEntity.text.toString().trim()
-        val phone = binding.etPhoneNumber.text.toString().trim()
-        val email = binding.etEmailEntity.text.toString().trim()
-        val description = binding.etDescEntity.text.toString().trim()
+        val entityName = binding.etNameEntity.text.toString().trim()
+        val entityPhone = binding.etPhoneNumber.text.toString().trim()
+        val entityEmail = binding.etEmailEntity.text.toString().trim()
+        val entityDescription = binding.etDescEntity.text.toString().trim()
 
-        if (name.isEmpty() || phone.isEmpty() || email.isEmpty()) {
+        if (entityName.isEmpty() || entityPhone.isEmpty() || entityEmail.isEmpty()) {
             showSnack("Faltan datos por rellenar")
             return
         }
 
         val updatedEntity = hashMapOf(
-            "entity_name" to name,
-            "entity_phone" to phone,
-            "entity_email" to email,
-            "entity_description" to description
+            "entity_name" to entityName,
+            "entity_phone" to entityPhone,
+            "entity_email" to entityEmail,
+            "entity_description" to entityDescription
         )
 
         db.collection("entities").document(uid).update(updatedEntity as Map<String, Any>)

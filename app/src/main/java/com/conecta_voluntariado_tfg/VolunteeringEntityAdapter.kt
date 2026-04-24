@@ -11,27 +11,30 @@ import java.util.Locale
 
 class VolunteeringEntityAdapter(
     private var volunteeringList: ArrayList<Volunteering>,
-    private val typeMap: HashMap<String, String>,
+    private val volunteeringTypeMap: HashMap<String, String>,
     private val onDelete: (Volunteering) -> Unit
-) : RecyclerView.Adapter<VolunteeringEntityAdapter.AchievementViewHolder>() {
+) : RecyclerView.Adapter<VolunteeringEntityAdapter.VolunteeringEntityViewHolder>() {
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
 
-    inner class AchievementViewHolder(val binding: ItemVolunteeringEntityBinding) :
+    inner class VolunteeringEntityViewHolder(val binding: ItemVolunteeringEntityBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AchievementViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): VolunteeringEntityViewHolder {
         val binding = ItemVolunteeringEntityBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return AchievementViewHolder(binding)
+        return VolunteeringEntityViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: AchievementViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: VolunteeringEntityViewHolder, position: Int) {
         val volunteering = volunteeringList[position]
-        val typeName = typeMap[volunteering.volunteering_type_id] ?: "Sin tipo"
+        val typeName = volunteeringTypeMap[volunteering.volunteering_type_id] ?: "Sin tipo"
         holder.binding.tvItemType.text = "Tipo: $typeName"
         holder.binding.tvItemTitle.text = volunteering.title
         holder.binding.tvItemDescription.text = volunteering.description

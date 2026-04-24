@@ -19,8 +19,8 @@ class CreateVolunteeringActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateVolunteeringBinding
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
-    private val typeIds = ArrayList<String>()
-    private val typeNames = ArrayList<String>()
+    private val volunteeringTypeIds = ArrayList<String>()
+    private val volunteeringTypeNames = ArrayList<String>()
     private val calendar = Calendar.getInstance()
     private var pickedDate = false
 
@@ -42,24 +42,24 @@ class CreateVolunteeringActivity : AppCompatActivity() {
     private fun loadTypes() {
         db.collection("volunteering_types")
             .get()
-            .addOnSuccessListener { result ->
-                typeIds.clear()
-                typeNames.clear()
-                typeIds.add("")
-                typeNames.add("Selecciona un tipo")
+            .addOnSuccessListener { typesResult ->
+                volunteeringTypeIds.clear()
+                volunteeringTypeNames.clear()
+                volunteeringTypeIds.add("")
+                volunteeringTypeNames.add("Selecciona un tipo")
 
-                for (doc in result.documents) {
+                for (doc in typesResult.documents) {
                     val name = doc.getString("type_name")
                     if (name != null) {
-                        typeIds.add(doc.id)
-                        typeNames.add(name)
+                        volunteeringTypeIds.add(doc.id)
+                        volunteeringTypeNames.add(name)
                     }
                 }
 
                 val adapter = android.widget.ArrayAdapter(
                     this,
                     android.R.layout.simple_spinner_item,
-                    typeNames
+                    volunteeringTypeNames
                 )
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 binding.spType.adapter = adapter
@@ -117,7 +117,8 @@ class CreateVolunteeringActivity : AppCompatActivity() {
         val city = binding.etCity.text.toString().trim()
         val address = binding.etAddress.text.toString().trim()
         val pos = binding.spType.selectedItemPosition
-        val typeId = if (pos >= 0 && pos < typeIds.size) typeIds[pos] else ""
+        val typeId =
+            if (pos >= 0 && pos < volunteeringTypeIds.size) volunteeringTypeIds[pos] else ""
         val accessibility = binding.cbAccessibility.isChecked
         val involvesMinors = binding.cbInvolvesMinors.isChecked
         val status = if (binding.swActive.isChecked) "active" else "finished"
@@ -139,7 +140,7 @@ class CreateVolunteeringActivity : AppCompatActivity() {
 
         binding.btnSave.isEnabled = false
 
-        val data = hashMapOf(
+        val volunteeringData = hashMapOf(
             "title" to title,
             "description" to description,
             "city" to city,
@@ -154,7 +155,7 @@ class CreateVolunteeringActivity : AppCompatActivity() {
         )
 
         db.collection("volunteerings")
-            .add(data)
+            .add(volunteeringData)
             .addOnSuccessListener {
                 showSnack("Voluntariado creado")
                 finish()
@@ -165,7 +166,7 @@ class CreateVolunteeringActivity : AppCompatActivity() {
             }
     }
 
-    private fun showSnack(msg: String) {
-        Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
+    private fun showSnack(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
 }

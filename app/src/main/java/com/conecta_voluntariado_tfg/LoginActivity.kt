@@ -68,15 +68,15 @@ class LoginActivity : AppCompatActivity() {
 
     private fun goToHomeByRole(uid: String) {
         db.collection("users").document(uid).get()
-            .addOnSuccessListener { doc ->
-                if (!doc.exists()) {
+            .addOnSuccessListener { userDoc ->
+                if (!userDoc.exists()) {
                     showSnack("No existe el usuario en la base de datos")
                     auth.signOut()
                     binding.btnLogIn.isEnabled = true
                     return@addOnSuccessListener
                 }
 
-                val role = doc.getString("role")
+                val role = userDoc.getString("role")
 
                 if (role == "entity") {
                     startActivity(Intent(this, EntityHomeActivity::class.java))
@@ -96,7 +96,7 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    private fun showSnack(msg: String) {
-        Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
+    private fun showSnack(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
 }
