@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class EntityProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEntityProfileBinding
+
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 

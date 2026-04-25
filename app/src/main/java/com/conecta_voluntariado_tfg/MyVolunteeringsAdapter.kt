@@ -10,6 +10,7 @@ import java.util.Locale
 import java.util.Date
 
 class MyVolunteeringsAdapter(
+
     private val myVolunteeringsList: ArrayList<Volunteering>,
     private val volunteeringTypeMap: HashMap<String, String>
 ) : RecyclerView.Adapter<MyVolunteeringsAdapter.MyVolunteeringsViewHolder>() {

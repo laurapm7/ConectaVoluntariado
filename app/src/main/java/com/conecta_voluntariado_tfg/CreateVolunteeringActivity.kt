@@ -17,8 +17,10 @@ import java.util.Locale
 class CreateVolunteeringActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateVolunteeringBinding
+
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
+
     private val volunteeringTypeIds = ArrayList<String>()
     private val volunteeringTypeNames = ArrayList<String>()
     private val calendar = Calendar.getInstance()

@@ -13,11 +13,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 class EntityHomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEntityHomeBinding
+
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
+
     private val volunteeringList = ArrayList<Volunteering>()
-    private lateinit var entityVolunteeringAdapter: VolunteeringEntityAdapter
     private val volunteeringTypeMap = HashMap<String, String>()
+
+    private lateinit var entityVolunteeringAdapter: VolunteeringEntityAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

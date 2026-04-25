@@ -3,10 +3,12 @@ package com.conecta_voluntariado_tfg
 import com.google.firebase.Timestamp
 
 data class Volunteering(
+
     var id: String = "",
     var title: String = "",
     var description: String = "",
     var city: String = "",
+    var address: String = "",
     var date: Timestamp? = null,
     var entity_id: String = "",
     var accessibility: Boolean = false,

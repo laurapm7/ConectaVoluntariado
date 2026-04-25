@@ -14,6 +14,7 @@ import java.util.Date
 class VolunteerHomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityVolunteerHomeBinding
+
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 

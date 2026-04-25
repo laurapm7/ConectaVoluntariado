@@ -13,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class RegistrationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegistrationBinding
+
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 

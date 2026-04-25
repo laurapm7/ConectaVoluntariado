@@ -4,56 +4,50 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.conecta_voluntariado_tfg.databinding.ItemVolunteeringEntityBinding
+import com.conecta_voluntariado_tfg.databinding.ItemVolunteeringVolunteerBinding
 import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class VolunteeringEntityAdapter(
+class SearchVolunteeringsAdapter(
 
-    private var volunteeringList: ArrayList<Volunteering>,
+    private val filteredVolunteeringsList: ArrayList<Volunteering>,
     private val volunteeringTypeMap: HashMap<String, String>,
-    private val onDelete: (Volunteering) -> Unit
-) : RecyclerView.Adapter<VolunteeringEntityAdapter.VolunteeringEntityViewHolder>() {
+    private val onSignUpClick: (Volunteering) -> Unit
+) : RecyclerView.Adapter<SearchVolunteeringsAdapter.SearchVolunteeringViewHolder>() {
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
 
-    inner class VolunteeringEntityViewHolder(val binding: ItemVolunteeringEntityBinding) :
+    inner class SearchVolunteeringViewHolder(val binding: ItemVolunteeringVolunteerBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): VolunteeringEntityViewHolder {
-        val binding = ItemVolunteeringEntityBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchVolunteeringViewHolder {
+        val binding = ItemVolunteeringVolunteerBinding.inflate(
             LayoutInflater.from(parent.context),
-            parent,
-            false
+            parent, false
         )
-        return VolunteeringEntityViewHolder(binding)
+        return SearchVolunteeringViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: VolunteeringEntityViewHolder, position: Int) {
-        val volunteering = volunteeringList[position]
+    override fun onBindViewHolder(holder: SearchVolunteeringViewHolder, position: Int) {
+        val volunteering = filteredVolunteeringsList[position]
         val typeName = volunteeringTypeMap[volunteering.volunteering_type_id] ?: "Sin tipo"
-        holder.binding.tvItemType.text = "Tipo: $typeName"
+
         holder.binding.tvItemTitle.text = volunteering.title
+        holder.binding.tvItemType.text = "Tipo: $typeName"
         holder.binding.tvItemDescription.text = volunteering.description
-        holder.binding.tvItemCity.text = volunteering.city
-        holder.binding.tvItemDate.text = formatDate(volunteering.date)
+        holder.binding.tvItemCity.text = "Ciudad: ${volunteering.city}"
+        holder.binding.tvItemAddress.text = "Dirección: ${volunteering.address}"
+        holder.binding.tvItemDate.text = "Fecha y hora: ${formatDate(volunteering.date)}"
 
         if (volunteering.involves_minors) {
             holder.binding.tvItemMinors.visibility = View.VISIBLE
-            holder.binding.tvItemMinors.text =
-                "Implica menores (Requiere certificado de delitos sexuales)"
         } else {
             holder.binding.tvItemMinors.visibility = View.GONE
         }
 
         if (volunteering.accessibility) {
             holder.binding.tvItemAccessibility.visibility = View.VISIBLE
-            holder.binding.tvItemAccessibility.text =
-                "Accesible para personas con movilidad reducida"
         } else {
             holder.binding.tvItemAccessibility.visibility = View.GONE
         }
@@ -61,14 +55,12 @@ class VolunteeringEntityAdapter(
         val statusText = if (volunteering.status == "active") "Activo" else "Finalizado"
         holder.binding.tvItemStatus.text = "Estado: $statusText"
 
-        holder.binding.btnDelete.setOnClickListener {
-            onDelete(volunteering)
+        holder.binding.btnSignUpVolunteering.setOnClickListener {
+            onSignUpClick(volunteering)
         }
     }
 
-    override fun getItemCount(): Int {
-        return volunteeringList.size
-    }
+    override fun getItemCount(): Int = filteredVolunteeringsList.size
 
     private fun formatDate(timestamp: Timestamp?): String {
         return if (timestamp != null) {
