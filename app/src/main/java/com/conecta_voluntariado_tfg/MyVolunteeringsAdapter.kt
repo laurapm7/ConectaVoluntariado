@@ -12,7 +12,8 @@ import java.util.Date
 class MyVolunteeringsAdapter(
 
     private val myVolunteeringsList: ArrayList<Volunteering>,
-    private val volunteeringTypeMap: HashMap<String, String>
+    private val volunteeringTypeMap: HashMap<String, String>,
+    private val onCancelRegistrationClick: (Volunteering) -> Unit
 ) : RecyclerView.Adapter<MyVolunteeringsAdapter.MyVolunteeringsViewHolder>() {
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
@@ -38,6 +39,9 @@ class MyVolunteeringsAdapter(
         holder.binding.tvItemDescription.text = volunteering.description
         holder.binding.tvItemCity.text = "Ciudad: ${volunteering.city}"
         holder.binding.tvItemDate.text = "Fecha: ${formatDate(volunteering.date)}"
+        holder.binding.btnCancelRegistration.setOnClickListener {
+            onCancelRegistrationClick(volunteering)
+        }
 
         val statusText = if (isCompleted(volunteering.date)) "Completado" else "Inscrito"
         holder.binding.tvItemStatus.text = "Estado: $statusText"

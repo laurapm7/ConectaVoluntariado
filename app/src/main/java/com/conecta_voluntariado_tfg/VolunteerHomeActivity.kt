@@ -34,7 +34,12 @@ class VolunteerHomeActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
         achievementAdapter = AchievementAdapter(achievementList)
-        myVolunteeringsAdapter = MyVolunteeringsAdapter(myVolunteeringsList, volunteeringTypeMap)
+        myVolunteeringsAdapter = MyVolunteeringsAdapter(
+            myVolunteeringsList,
+            volunteeringTypeMap,
+            onCancelRegistrationClick = { volunteering ->
+                cancelRegistration(volunteering)
+            })
 
         binding.rvAchievements.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -139,6 +144,42 @@ class VolunteerHomeActivity : AppCompatActivity() {
             }
             .addOnFailureListener { e ->
                 showSnack("Error al cargar las inscripciones: ${e.message}")
+            }
+    }
+
+    private fun cancelRegistration(volunteering: Volunteering) {
+        val uid = auth.currentUser?.uid
+
+        if (uid == null) {
+            showSnack("Debes iniciar sesión para realizar esta acción")
+            return
+        }
+
+        db.collection("volunteer_registrations")
+            .whereEqualTo("volunteer_id", uid)
+            .whereEqualTo("volunteering_id", volunteering.id)
+            .get()
+            .addOnSuccessListener { registrationResult ->
+                if (registrationResult.isEmpty) {
+                    showSnack("No estás inscrito en este voluntariado")
+                    return@addOnSuccessListener
+                }
+
+                val registrationDoc = registrationResult.documents.first()
+
+                db.collection("volunteer_registrations")
+                    .document(registrationDoc.id)
+                    .delete()
+                    .addOnSuccessListener {
+                        showSnack("Has cancelado la inscripción")
+                        loadMyVolunteerings()
+                    }
+                    .addOnFailureListener { e ->
+                        showSnack("Error al cancelar la inscripción: ${e.message}")
+                    }
+            }
+            .addOnFailureListener { e ->
+                showSnack("Error al buscar la inscripción: ${e.message}")
             }
     }
 
