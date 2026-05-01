@@ -84,9 +84,9 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnSaveProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/btnSaveProfile"
         android:backgroundTint="@color/brand_blue"
         android:text="Editar Perfil"
         android:textSize="18sp"
