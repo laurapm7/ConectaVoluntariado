@@ -1,6 +1,7 @@
 package com.conecta_voluntariado_tfg
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.conecta_voluntariado_tfg.databinding.ItemMyVolunteeringBinding
@@ -45,6 +46,12 @@ class MyVolunteeringsAdapter(
 
         val statusText = if (isCompleted(volunteering.date)) "Completado" else "Inscrito"
         holder.binding.tvItemStatus.text = "Estado: $statusText"
+
+        if (isCompleted(volunteering.date)) {
+            holder.binding.btnCancelRegistration.visibility = View.GONE
+        } else {
+            holder.binding.btnCancelRegistration.visibility = View.VISIBLE
+        }
     }
 
     override fun getItemCount(): Int = myVolunteeringsList.size
