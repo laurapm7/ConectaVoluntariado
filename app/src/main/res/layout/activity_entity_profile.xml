@@ -30,7 +30,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="50dp"
             android:text="Nombre de tu Entidad"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +90,7 @@
         android:backgroundTint="@color/brand_blue"
         android:text="Editar Perfil"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
@@ -102,9 +102,21 @@
         android:text="Cerrar sesión"
         android:textSize="18sp"
         android:backgroundTint="@color/light_red"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSaveProfile" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnDeleteUser"
+        android:text="Eliminar cuenta"
+        android:textSize="18sp"
+        android:backgroundTint="@color/light_red"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSignOut" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

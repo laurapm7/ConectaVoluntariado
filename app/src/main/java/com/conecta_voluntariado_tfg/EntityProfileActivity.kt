@@ -2,6 +2,7 @@ package com.conecta_voluntariado_tfg
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.conecta_voluntariado_tfg.databinding.ActivityEntityProfileBinding
 import com.google.android.material.snackbar.Snackbar
@@ -40,6 +41,10 @@ class EntityProfileActivity : AppCompatActivity() {
 
         binding.btnSignOut.setOnClickListener {
             signOut()
+        }
+
+        binding.btnDeleteUser.setOnClickListener {
+            deleteAccountDialog()
         }
     }
 
@@ -126,6 +131,56 @@ class EntityProfileActivity : AppCompatActivity() {
         val intent = Intent(this, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
+    }
+
+    private fun deleteAccountDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Eliminar cuenta")
+            .setMessage("¿Estás seguro de que quieres eliminar tu cuenta?")
+            .setPositiveButton("Eliminar") {_,_ ->
+                deleteEntityAccount()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun deleteEntityAccount() {
+        val user = auth.currentUser
+        val uid = user?.uid
+
+        if (uid == null) {
+            showSnack("Debes iniciar sesión para continuar")
+            return
+        }
+
+        db.collection("volunteerings")
+            .whereEqualTo("entity_id", uid)
+            .get()
+            .addOnSuccessListener { volunteeringsResult ->
+
+                for (doc in volunteeringsResult.documents) {
+                    db.collection("volunteerings").document(doc.id).delete()
+                }
+
+                db.collection("entities").document(uid).delete()
+                    .addOnSuccessListener {
+                        db.collection("users").document(uid).delete()
+                            .addOnSuccessListener {
+                                user.delete()
+                                    .addOnSuccessListener {
+                                        val intent = Intent(this, LoginActivity::class.java)
+                                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        startActivity(intent)
+                                    }
+                                    .addOnFailureListener { e ->
+                                        showSnack("Error al eliminar la cuenta: ${e.message}")
+                                    }
+                            }
+                    }
+            }
+            .addOnFailureListener { e ->
+                showSnack("Error al eliminar los datos: ${e.message}")
+            }
     }
 
     private fun showSnack(message: String) {
