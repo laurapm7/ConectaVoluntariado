@@ -30,6 +30,11 @@ class EntityHomeActivity : AppCompatActivity() {
         entityVolunteeringAdapter = VolunteeringEntityAdapter(
             volunteeringList,
             volunteeringTypeMap,
+            onEdit = { volunteering ->
+                val intent = Intent(this, CreateVolunteeringActivity::class.java)
+                intent.putExtra("volunteering_id", volunteering.id)
+                startActivity(intent)
+            },
             onDelete = { volunteering ->
                 deleteVolunteering(volunteering.id)
             }

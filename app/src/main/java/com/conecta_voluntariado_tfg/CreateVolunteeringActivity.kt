@@ -23,6 +23,8 @@ class CreateVolunteeringActivity : AppCompatActivity() {
 
     private val volunteeringTypeIds = ArrayList<String>()
     private val volunteeringTypeNames = ArrayList<String>()
+    private var volunteeringId: String? = null
+    private var isEditMode = false
     private val calendar = Calendar.getInstance()
     private var pickedDate = false
 
@@ -30,6 +32,16 @@ class CreateVolunteeringActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateVolunteeringBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        volunteeringId = intent.getStringExtra("volunteering_id")
+        isEditMode = volunteeringId != null
+
+        if (isEditMode) {
+            binding.btnSave.text = "Guardar cambios"
+        } else {
+            binding.btnSave.text = "Publicar"
+        }
+
         loadTypes()
 
         binding.btnPickDate.setOnClickListener {
@@ -37,7 +49,11 @@ class CreateVolunteeringActivity : AppCompatActivity() {
         }
 
         binding.btnSave.setOnClickListener {
-            saveVolunteering()
+            if (isEditMode) {
+                updateVolunteering()
+            } else {
+                saveVolunteering()
+            }
         }
     }
 
@@ -65,6 +81,10 @@ class CreateVolunteeringActivity : AppCompatActivity() {
                 )
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 binding.spType.adapter = adapter
+
+                if (isEditMode) {
+                    loadVolunteeringData()
+                }
             }
             .addOnFailureListener { e ->
                 showSnack("Error al cargar los tipos: ${e.message}")
@@ -105,6 +125,48 @@ class CreateVolunteeringActivity : AppCompatActivity() {
         }
         val format = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         binding.tvDateSelected.text = "Fecha y hora: ${format.format(calendar.time)}"
+    }
+
+    private fun loadVolunteeringData() {
+        val id = volunteeringId ?: return
+
+        db.collection("volunteerings").document(id).get()
+            .addOnSuccessListener { volunteeringDocument ->
+                if (volunteeringDocument.exists()) {
+                    binding.etTitle.setText(volunteeringDocument.getString("title") ?: "")
+                    binding.etDescription.setText(
+                        volunteeringDocument.getString("description") ?: ""
+                    )
+                    binding.etCity.setText(volunteeringDocument.getString("city") ?: "")
+                    binding.etAddress.setText(volunteeringDocument.getString("address") ?: "")
+
+                    binding.cbAccessibility.isChecked =
+                        volunteeringDocument.getBoolean("accessibility") ?: false
+
+                    binding.cbInvolvesMinors.isChecked =
+                        volunteeringDocument.getBoolean("involves_minors") ?: false
+
+                    binding.swActive.isChecked =
+                        volunteeringDocument.getString("status") == "active"
+
+                    val date = volunteeringDocument.getTimestamp("date")
+                    if (date != null) {
+                        calendar.time = date.toDate()
+                        pickedDate = true
+                        updateDateLabel()
+                    }
+
+                    val typeId = volunteeringDocument.getString("volunteering_type_id") ?: ""
+                    val position = volunteeringTypeIds.indexOf(typeId)
+
+                    if (position >= 0) {
+                        binding.spType.setSelection(position)
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                showSnack("Error al cargar el voluntariado: ${e.message}")
+            }
     }
 
     private fun saveVolunteering() {
@@ -164,6 +226,62 @@ class CreateVolunteeringActivity : AppCompatActivity() {
             }
             .addOnFailureListener { e ->
                 showSnack("Error al guardar el voluntariado: ${e.message}")
+                binding.btnSave.isEnabled = true
+            }
+    }
+
+    private fun updateVolunteering() {
+        val id = volunteeringId ?: return
+
+        val title = binding.etTitle.text.toString().trim()
+        val description = binding.etDescription.text.toString().trim()
+        val city = binding.etCity.text.toString().trim()
+        val address = binding.etAddress.text.toString().trim()
+        val pos = binding.spType.selectedItemPosition
+        val typeId =
+            if (pos >= 0 && pos < volunteeringTypeIds.size) volunteeringTypeIds[pos] else ""
+
+        val accessibility = binding.cbAccessibility.isChecked
+        val involvesMinors = binding.cbInvolvesMinors.isChecked
+        val status = if (binding.swActive.isChecked) "active" else "finished"
+
+        if (title.isEmpty() || description.isEmpty() || city.isEmpty() || address.isEmpty()) {
+            showSnack("Rellena todos los campos")
+            return
+        }
+
+        if (typeId.isEmpty()) {
+            showSnack("Selecciona un tipo de voluntariado")
+            return
+        }
+
+        if (!pickedDate) {
+            showSnack("Selecciona fecha")
+            return
+        }
+
+        binding.btnSave.isEnabled = false
+
+        val volunteeringData = hashMapOf<String, Any>(
+            "title" to title,
+            "description" to description,
+            "city" to city,
+            "address" to address,
+            "date" to Timestamp(calendar.time),
+            "accessibility" to accessibility,
+            "involves_minors" to involvesMinors,
+            "status" to status,
+            "volunteering_type_id" to typeId
+        )
+
+        db.collection("volunteerings").document(id)
+            .update(volunteeringData)
+            .addOnSuccessListener {
+                showSnack("Voluntariado actualizado")
+                finish()
+            }
+            .addOnFailureListener { e ->
+                showSnack("Error al actualizar el voluntariado: ${e.message}")
                 binding.btnSave.isEnabled = true
             }
     }

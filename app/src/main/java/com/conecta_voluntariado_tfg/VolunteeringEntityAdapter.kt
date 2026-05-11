@@ -13,6 +13,7 @@ class VolunteeringEntityAdapter(
 
     private var volunteeringList: ArrayList<Volunteering>,
     private val volunteeringTypeMap: HashMap<String, String>,
+    private val onEdit: (Volunteering) -> Unit,
     private val onDelete: (Volunteering) -> Unit
 ) : RecyclerView.Adapter<VolunteeringEntityAdapter.VolunteeringEntityViewHolder>() {
 
@@ -60,6 +61,10 @@ class VolunteeringEntityAdapter(
 
         val statusText = if (volunteering.status == "active") "Activo" else "Finalizado"
         holder.binding.tvItemStatus.text = "Estado: $statusText"
+
+        holder.binding.btnEditVolunteering.setOnClickListener {
+            onEdit(volunteering)
+        }
 
         holder.binding.btnDelete.setOnClickListener {
             onDelete(volunteering)
