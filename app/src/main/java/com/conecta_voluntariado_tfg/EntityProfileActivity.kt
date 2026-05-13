@@ -63,7 +63,9 @@ class EntityProfileActivity : AppCompatActivity() {
                     binding.etNameEntity.setText(entityDocument.getString("entity_name") ?: "")
                     binding.etPhoneNumber.setText(entityDocument.getString("entity_phone") ?: "")
                     binding.etEmailEntity.setText(entityDocument.getString("entity_email") ?: "")
-                    binding.etDescEntity.setText(entityDocument.getString("entity_description") ?: "")
+                    binding.etDescEntity.setText(
+                        entityDocument.getString("entity_description") ?: ""
+                    )
                 } else {
                     showSnack("No se encontraron los datos de la entidad")
                 }
@@ -137,7 +139,7 @@ class EntityProfileActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle("Eliminar cuenta")
             .setMessage("¿Estás seguro de que quieres eliminar tu cuenta?")
-            .setPositiveButton("Eliminar") {_,_ ->
+            .setPositiveButton("Eliminar") { _, _ ->
                 deleteEntityAccount()
             }
             .setNegativeButton("Cancelar", null)
@@ -169,7 +171,8 @@ class EntityProfileActivity : AppCompatActivity() {
                                 user.delete()
                                     .addOnSuccessListener {
                                         val intent = Intent(this, LoginActivity::class.java)
-                                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                         startActivity(intent)
                                     }
                                     .addOnFailureListener { e ->

@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Date
 
 class SearchVolunteeringActivity : AppCompatActivity() {
 
@@ -108,16 +109,23 @@ class SearchVolunteeringActivity : AppCompatActivity() {
                 val cities = ArrayList<String>()
                 cities.add("Todas")
 
+                val currentDate = Date()
                 for (doc in volunteeringsResult.documents) {
                     val volunteering = doc.toObject(Volunteering::class.java)
 
                     if (volunteering != null) {
-                        volunteering.id = doc.id
-                        filteredVolunteeringsList.add(volunteering)
-                        allVolunteeringsList.add(volunteering)
+                        val volunteeringDate = volunteering.date?.toDate()
 
-                        if (!cities.contains(volunteering.city)) {
-                            cities.add(volunteering.city)
+                        if (volunteeringDate != null && volunteeringDate.after(currentDate)) {
+
+                            volunteering.id = doc.id
+
+                            filteredVolunteeringsList.add(volunteering)
+                            allVolunteeringsList.add(volunteering)
+
+                            if (!cities.contains(volunteering.city)) {
+                                cities.add(volunteering.city)
+                            }
                         }
                     }
                 }

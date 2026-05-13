@@ -2,73 +2,73 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_marginBottom="12dp"
-    android:padding="24dp"
-    android:background="@color/light_gray">
+    android:background="@color/light_gray"
+    android:orientation="vertical"
+    android:padding="24dp">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/tvItemTitle"
-        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:textSize="18sp"
-        android:textColor="@color/black" />
+        android:textStyle="bold" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/tvItemType"
-        android:paddingTop="4dp"
-        android:textSize="14sp"
-        android:textColor="@color/black" />
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
         android:id="@+id/tvItemDescription"
-        android:maxLines="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:ellipsize="end"
+        android:maxLines="2"
         android:paddingTop="6dp"
         android:textColor="@color/black" />
 
     <TextView
+        android:id="@+id/tvItemCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvItemCity"
         android:paddingTop="8dp"
         android:textColor="@color/black" />
 
     <TextView
+        android:id="@+id/tvItemDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvItemDate"
         android:paddingTop="2dp"
-        android:textStyle="italic"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:textStyle="italic" />
 
     <TextView
+        android:id="@+id/tvItemMinors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvItemMinors"
         android:paddingTop="6dp"
+        android:text="Implica menores"
         android:textColor="@color/light_red"
         android:textStyle="bold"
-        android:visibility="gone"
-        android:text="Implica menores" />
+        android:visibility="gone" />
 
     <TextView
+        android:id="@+id/tvItemAccessibility"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvItemAccessibility"
         android:paddingTop="4dp"
         android:textColor="@color/black"
         android:visibility="gone" />
 
     <TextView
+        android:id="@+id/tvItemStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvItemStatus"
         android:paddingTop="4dp"
         android:textColor="@color/black" />
 
@@ -79,21 +79,22 @@
         android:paddingTop="12dp">
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/btnEditVolunteering"
-            android:layout_weight="1"
-            android:layout_marginStart="10dp"
-            android:text="Editar"
-            android:backgroundTint="@color/brand_blue"/>
-        <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/btnDelete"
-            android:layout_weight="1"
             android:layout_marginStart="10dp"
-            android:text="Borrar"
+            android:layout_weight="1"
+            android:backgroundTint="@color/brand_blue"
+            android:text="Editar" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/light_red"
+            android:text="Borrar"
             android:textColor="@color/white" />
     </LinearLayout>
 

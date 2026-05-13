@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.conecta_voluntariado_tfg.databinding.ItemVolunteeringVolunteerBinding
 import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class SearchVolunteeringsAdapter(
@@ -21,7 +22,10 @@ class SearchVolunteeringsAdapter(
     inner class SearchVolunteeringViewHolder(val binding: ItemVolunteeringVolunteerBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchVolunteeringViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): SearchVolunteeringViewHolder {
         val binding = ItemVolunteeringVolunteerBinding.inflate(
             LayoutInflater.from(parent.context),
             parent, false
@@ -52,11 +56,19 @@ class SearchVolunteeringsAdapter(
             holder.binding.tvItemAccessibility.visibility = View.GONE
         }
 
-        val statusText = if (volunteering.status == "active") "Activo" else "Finalizado"
-        holder.binding.tvItemStatus.text = "Estado: $statusText"
+        val currentDate = Date()
+        val volunteeringDate = volunteering.date?.toDate()
 
-        holder.binding.btnSignUpVolunteering.setOnClickListener {
-            onSignUpClick(volunteering)
+        if (volunteeringDate != null && volunteeringDate.before(currentDate)) {
+            holder.binding.tvItemStatus.text = "Estado: Finalizado"
+            holder.binding.btnSignUpVolunteering.visibility = View.GONE
+        } else {
+            holder.binding.tvItemStatus.text = "Estado: Activo"
+            holder.binding.btnSignUpVolunteering.visibility = View.VISIBLE
+
+            holder.binding.btnSignUpVolunteering.setOnClickListener {
+                onSignUpClick(volunteering)
+            }
         }
     }
 

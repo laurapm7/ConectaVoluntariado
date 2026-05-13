@@ -26,7 +26,11 @@ class AchievementAdapter(
 
         holder.binding.tvAchievementTitle.text = achievement.achievement_name
         holder.binding.tvAchievementDescription.text = achievement.achievement_description
-        holder.binding.ivAchievementIcon.setImageResource(R.drawable.achievement1)
+
+        when (achievement.achievement_icon) {
+            "achievement1" -> holder.binding.ivAchievementIcon.setImageResource(R.drawable.achievement1)
+            "achievement3" -> holder.binding.ivAchievementIcon.setImageResource(R.drawable.achievement3)
+        }
     }
 
     override fun getItemCount(): Int = achievementList.size

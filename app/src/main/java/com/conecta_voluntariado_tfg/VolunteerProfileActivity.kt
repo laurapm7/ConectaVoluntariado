@@ -60,9 +60,15 @@ class VolunteerProfileActivity : AppCompatActivity() {
         db.collection("volunteers").document(uid).get()
             .addOnSuccessListener { volunteersDocument ->
                 if (volunteersDocument.exists()) {
-                    binding.etNameVolunteer.setText(volunteersDocument.getString("first_name") ?: "")
-                    binding.etLastNameVolunteer.setText(volunteersDocument.getString("last_name") ?: "")
-                    binding.etEmailVolunteer.setText(volunteersDocument.getString("volunteer_email") ?: "")
+                    binding.etNameVolunteer.setText(
+                        volunteersDocument.getString("first_name") ?: ""
+                    )
+                    binding.etLastNameVolunteer.setText(
+                        volunteersDocument.getString("last_name") ?: ""
+                    )
+                    binding.etEmailVolunteer.setText(
+                        volunteersDocument.getString("volunteer_email") ?: ""
+                    )
 
                 } else {
                     showSnack("No se encontraron los datos del voluntario")
@@ -133,7 +139,7 @@ class VolunteerProfileActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle("Eliminar cuenta")
             .setMessage("¿Estás seguro de que quieres eliminar tu cuenta?")
-            .setPositiveButton("Eliminar") {_,_ ->
+            .setPositiveButton("Eliminar") { _, _ ->
                 deleteVolunteerAccount()
             }
             .setNegativeButton("Cancelar", null)
@@ -165,7 +171,8 @@ class VolunteerProfileActivity : AppCompatActivity() {
                                 user.delete()
                                     .addOnSuccessListener {
                                         val intent = Intent(this, LoginActivity::class.java)
-                                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                         startActivity(intent)
                                     }
                                     .addOnFailureListener { e ->

@@ -8,8 +8,8 @@
     android:background="@color/light_gray">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:id="@+id/ivAchievementIcon"
         android:src="@drawable/achievement1"
         android:layout_gravity="center" />
@@ -20,7 +20,7 @@
         android:id="@+id/tvAchievementTitle"
         android:text="Primera Huella Solidaria"
         android:textColor="@color/light_green"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
          android:gravity="center" />
