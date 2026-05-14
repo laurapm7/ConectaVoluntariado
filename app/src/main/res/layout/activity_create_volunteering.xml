@@ -11,10 +11,10 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/btnSave"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,12 +24,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="Nuevo voluntariado"
                 android:textAlignment="center"
-                android:textSize="22sp"
-                android:textStyle="bold"
                 android:textColor="@color/brand_blue"
-                android:padding="10dp" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -37,9 +37,9 @@
                 android:text="Título" />
 
             <EditText
+                android:id="@+id/etTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/etTitle"
                 android:hint="Ej: Creando Sonrisas" />
 
             <TextView
@@ -49,13 +49,13 @@
                 android:text="Descripción" />
 
             <EditText
+                android:id="@+id/etDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/etDescription"
-                android:hint="Ej: Voluntariado centrado en la realización de actividades lúdicas con personas con diversidad funcional"
-                android:minLines="3"
                 android:gravity="top"
-                android:inputType="textMultiLine" />
+                android:hint="Ej: Voluntariado centrado en la realización de actividades lúdicas con personas con diversidad funcional"
+                android:inputType="textMultiLine"
+                android:minLines="3" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -64,9 +64,9 @@
                 android:text="Ciudad" />
 
             <EditText
+                android:id="@+id/etCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/etCity"
                 android:hint="Ej: Madrid" />
 
             <TextView
@@ -76,9 +76,9 @@
                 android:text="Dirección" />
 
             <EditText
+                android:id="@+id/etAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/etAddress"
                 android:hint="Ej: Calle Cardenal Cisneros, 8" />
 
             <TextView
@@ -88,9 +88,9 @@
                 android:text="Tipo de voluntariado" />
 
             <Spinner
+                android:id="@+id/spType"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spType" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -99,68 +99,66 @@
                 android:text="Fecha y hora" />
 
             <TextView
+                android:id="@+id/tvDateSelected"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvDateSelected"
-                android:text="No seleccionada"
-                android:textStyle="bold"
                 android:paddingTop="4dp"
-                android:paddingBottom="8dp" />
+                android:paddingBottom="8dp"
+                android:text="No seleccionada"
+                android:textStyle="bold" />
 
             <Button
+                android:id="@+id/btnPickDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnPickDate"
                 android:layout_weight="1"
-                android:text="Elegir fecha"
-                android:backgroundTint="@color/brand_blue" />
+                android:backgroundTint="@color/brand_blue"
+                android:text="Elegir fecha" />
 
             <CheckBox
+                android:id="@+id/cbAccessibility"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/cbAccessibility"
                 android:layout_marginTop="12dp"
                 android:text="Accesible para personas con movilidad reducida" />
 
             <CheckBox
+                android:id="@+id/cbInvolvesMinors"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/cbInvolvesMinors"
                 android:text="Implica menores" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Activo"
-                    android:layout_marginEnd="10dp" />
+                    android:layout_marginEnd="10dp"
+                    android:text="Activo" />
 
-                 <Switch
+                <Switch
+                    android:id="@+id/swActive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                     android:id="@+id/swActive"
                     android:checked="true" />
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/brand_blue"
+                android:text="Guardar"
+                android:textSize="18sp"
+                android:layout_marginTop="25dp"/>
+
         </LinearLayout>
 
     </ScrollView>
-
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnSave"
-        android:text="Guardar"
-        android:textSize="18sp"
-        android:backgroundTint="@color/brand_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
