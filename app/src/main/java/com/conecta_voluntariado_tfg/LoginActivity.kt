@@ -39,13 +39,13 @@ class LoginActivity : AppCompatActivity() {
         val email = binding.etUser.text.toString().trim()
         val pass = binding.etPass.text.toString().trim()
 
-        if (email.isEmpty() || pass.isEmpty()) {
-            showSnack("Faltan datos por introducir")
+        if (!ValidationUtils.isValidEmail(email)) {
+            showSnack("Email incorrecto o vacío")
             return
         }
 
-        if (!email.contains("@")) {
-            showSnack("Introduce un email válido")
+        if (!ValidationUtils.isValidPassword(pass)) {
+            showSnack("Contraseña incorrecta o vacía. Debe tener como mínimo 6 caracteres")
             return
         }
 
