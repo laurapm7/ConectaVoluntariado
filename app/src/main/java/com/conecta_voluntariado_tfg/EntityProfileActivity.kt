@@ -61,6 +61,7 @@ class EntityProfileActivity : AppCompatActivity() {
             .addOnSuccessListener { entityDocument ->
                 if (entityDocument.exists()) {
                     binding.etNameEntity.setText(entityDocument.getString("entity_name") ?: "")
+                    binding.etCif.setText(entityDocument.getString("cif") ?: "")
                     binding.etPhoneNumber.setText(entityDocument.getString("entity_phone") ?: "")
                     binding.etEmailEntity.setText(entityDocument.getString("entity_email") ?: "")
                     binding.etDescEntity.setText(
@@ -77,6 +78,7 @@ class EntityProfileActivity : AppCompatActivity() {
 
     private fun disableEditText() {
         binding.etNameEntity.isEnabled = false
+        binding.etCif.isEnabled = false
         binding.etPhoneNumber.isEnabled = false
         binding.etEmailEntity.isEnabled = false
         binding.etDescEntity.isEnabled = false
@@ -84,6 +86,7 @@ class EntityProfileActivity : AppCompatActivity() {
 
     private fun enableEditText() {
         binding.etNameEntity.isEnabled = true
+        binding.etCif.isEnabled = true
         binding.etPhoneNumber.isEnabled = true
         binding.etEmailEntity.isEnabled = true
         binding.etDescEntity.isEnabled = true
@@ -98,17 +101,19 @@ class EntityProfileActivity : AppCompatActivity() {
         }
 
         val entityName = binding.etNameEntity.text.toString().trim()
+        val cif = binding.etCif.text.toString().trim()
         val entityPhone = binding.etPhoneNumber.text.toString().trim()
         val entityEmail = binding.etEmailEntity.text.toString().trim()
         val entityDescription = binding.etDescEntity.text.toString().trim()
 
-        if (entityName.isEmpty() || entityPhone.isEmpty() || entityEmail.isEmpty()) {
+        if (entityName.isEmpty() || cif.isEmpty() || entityPhone.isEmpty() || entityEmail.isEmpty()) {
             showSnack("Faltan datos por rellenar")
             return
         }
 
         val updatedEntity = hashMapOf(
             "entity_name" to entityName,
+            "cif" to cif,
             "entity_phone" to entityPhone,
             "entity_email" to entityEmail,
             "entity_description" to entityDescription

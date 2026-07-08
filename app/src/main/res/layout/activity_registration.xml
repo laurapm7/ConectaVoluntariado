@@ -81,6 +81,20 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                     android:text="CIF"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/etCif"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:hint="Ej: G12345678"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Teléfono"
                     android:textSize="20sp" />
 
@@ -163,6 +177,29 @@
                     android:layout_marginBottom="10dp"
                     android:hint="Introduce tus apellidos"
                     android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Fecha de nacimiento"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvBirthDateSelected"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No seleccionada"
+                    android:textStyle="bold"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="8dp" />
+
+                <Button
+                    android:id="@+id/btnPickBirthDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Selecciona tu fecha de nacimiento"
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:layout_width="match_parent"

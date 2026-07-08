@@ -1,13 +1,19 @@
 package com.conecta_voluntariado_tfg
 
+import android.app.DatePickerDialog
 import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.conecta_voluntariado_tfg.databinding.ActivityVolunteerProfileBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Locale
 
 class VolunteerProfileActivity : AppCompatActivity() {
 
@@ -17,6 +23,8 @@ class VolunteerProfileActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
 
     private var isEditing = false
+    private val birthDateCalendar = Calendar.getInstance()
+    private var pickedDate = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +54,31 @@ class VolunteerProfileActivity : AppCompatActivity() {
         binding.btnDeleteUser.setOnClickListener {
             deleteAccountDialog()
         }
+
+        binding.tvBirthDateSelected.setOnClickListener {
+            if (isEditing){
+                openBirthDatePicker()
+            }
+        }
+    }
+
+    private fun openBirthDatePicker(){
+        val year = birthDateCalendar.get(Calendar.YEAR)
+        val month = birthDateCalendar.get(Calendar.MONTH)
+        val day = birthDateCalendar.get(Calendar.DAY_OF_MONTH)
+
+        DatePickerDialog(this,{_, selectedYear, selectedMonth, selectedDay ->
+            birthDateCalendar.set(Calendar.YEAR, selectedYear)
+            birthDateCalendar.set(Calendar.MONTH, selectedMonth)
+            birthDateCalendar.set(Calendar.DAY_OF_MONTH, selectedDay)
+
+            pickedDate = true
+
+            val dateFormat = SimpleDateFormat("dd/MM/yyy", Locale.getDefault())
+            binding.tvBirthDateSelected.text = dateFormat.format(birthDateCalendar.time)
+        }, year, month, day).show()
+
+
     }
 
     private fun loadVolunteerProfile() {
@@ -66,6 +99,18 @@ class VolunteerProfileActivity : AppCompatActivity() {
                     binding.etLastNameVolunteer.setText(
                         volunteersDocument.getString("last_name") ?: ""
                     )
+                    val birthDateTimestamp = volunteersDocument.getTimestamp("birth_date")
+
+                    if (birthDateTimestamp != null) {
+                        birthDateCalendar.time = birthDateTimestamp.toDate()
+                        pickedDate = true
+
+                        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                        binding.tvBirthDateSelected.text = dateFormat.format(birthDateCalendar.time)
+                    } else {
+                        binding.tvBirthDateSelected.text = "No seleccionada"
+                        pickedDate = false
+                    }
                     binding.etEmailVolunteer.setText(
                         volunteersDocument.getString("volunteer_email") ?: ""
                     )
@@ -82,12 +127,14 @@ class VolunteerProfileActivity : AppCompatActivity() {
     private fun disableEditText() {
         binding.etNameVolunteer.isEnabled = false
         binding.etLastNameVolunteer.isEnabled = false
+        binding.tvBirthDateSelected.isEnabled = false
         binding.etEmailVolunteer.isEnabled = false
     }
 
     private fun enableEditText() {
         binding.etNameVolunteer.isEnabled = true
         binding.etLastNameVolunteer.isEnabled = true
+        binding.tvBirthDateSelected.isEnabled = true
         binding.etEmailVolunteer.isEnabled = true
     }
 
@@ -108,9 +155,15 @@ class VolunteerProfileActivity : AppCompatActivity() {
             return
         }
 
+        if (!pickedDate){
+            showSnack("Selecciona tu fecha de nacimiento")
+            return
+        }
+
         val updatedVolunteers = hashMapOf(
             "first_name" to volunteerName,
             "last_name" to volunteerLastName,
+            "birth_date" to Timestamp(birthDateCalendar.time),
             "volunteer_email" to volunteerEmail,
         )
 
